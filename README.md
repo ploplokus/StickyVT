@@ -1,4 +1,4 @@
-# IktaVT StickyVT 0.1 
+# IktaVT StickyVT 0.3 
 Bring your Twitch stream to life with vibrant, customizable sticky notes for real-time audience interactions!
 
 ---
