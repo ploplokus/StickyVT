@@ -2,6 +2,29 @@ const container = document.getElementById('redemptions-container');
 let ws; // WebSocket variable for PubSub connection
 const statusDisplay = document.getElementById('connection-status');
 
+let gridLeftMargin = 100;
+let gridTopMargin = 100;
+
+let usernameList = [];
+
+
+var foldable = document.getElementsByClassName("foldable");
+
+for (var i = 0; i < foldable.length; i++) {
+  foldable[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var content = this.nextElementSibling;
+    if (content.style.display === "block") {
+      content.style.display = "none";
+    } else {
+      content.style.display = "block";
+    }
+  });
+} 
+
+
+
+
 // Save settings to localStorage and connect to PubSub
 function saveSettings() {
     const oauthToken = document.getElementById('oauth-token').value.trim();
@@ -189,12 +212,19 @@ outlineSizeSlider.addEventListener('input', () => {
 
 // Modify the createStickyNote function to apply font and outline settings
 function createStickyNote(username) {
+//    if (usernameList.includes(username))
+//        return;
+//    usernameList.push(username);
     const note = document.createElement('div');
     note.className = 'sticky-note';
-    note.style.left = '100px';
-    note.style.top = '100px';
-    note.style.width = '200px';
-    note.style.height = '200px';
+    let gridPitch =  document.getElementById('grid-pitch').value.trim();
+    let gridWidth = document.getElementById('grid-width').value.trim();
+    let gridHeight =  document.getElementById('grid-height').value.trim();
+    
+    note.style.left = (Math.floor(Math.random() * (gridWidth/gridPitch) ) * gridPitch + gridLeftMargin) + 'px';
+    note.style.top = (Math.floor(Math.random() * gridHeight/gridPitch ) * gridPitch + gridTopMargin) + 'px';
+    note.style.width =  document.getElementById('sticky-note-size').value.trim() + 'px';
+    note.style.height =  document.getElementById('sticky-note-size').value.trim() + 'px';
 
     const usernameDiv = document.createElement('div');
     usernameDiv.textContent = username;
@@ -297,19 +327,14 @@ function makeStickyNoteDraggableAndResizable(note) {
 }
 
 
-// Simulate events
-document.getElementById('simulate-subscription').addEventListener('click', () => {
-    console.log('Simulating subscription...');
-    createStickyNote('Test Subscription');
-});
+// Custom sticknote
 
-document.getElementById('simulate-redeem').addEventListener('click', () => {
-    const redeemName = document.getElementById('channel-redeem-input').value.trim();
-    if (redeemName) {
-        console.log('Simulating channel redeem...');
-        createStickyNote(`Test Redeem: ${redeemName}`);
-    } else {
-        alert('Please enter a Channel Redeem Name to simulate.');
+document.getElementById('make-custom-sticknote').addEventListener('click', () => {
+    const input = document.getElementById('custom-input').value.trim();
+    if (input) {
+        createStickyNote(input);
+    } else{
+         alert('Please enter something into Custom Content field.');
     }
 });
 
@@ -351,6 +376,14 @@ hideMenuAfterDelay();
 window.addEventListener('resize', adjustMenuTriggerSize);
 
 
+document.getElementById('bgnd-toggle').addEventListener('click', () => {
+    if (document.body.style.backgroundColor !== 'magenta') {
+        document.body.style.backgroundColor = 'magenta';
+    }
+    else {
+        document.body.style.backgroundColor = '';
+    }
+});
 
 // Load settings on startup
 loadSettings();

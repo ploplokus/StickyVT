@@ -5,14 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	    <link href="https://fonts.googleapis.com/css2?family=Roboto&family=Open+Sans&family=Lato&family=Oswald&family=Montserrat&family=Source+Sans+Pro&family=Raleway&family=PT+Sans&display=swap" rel="stylesheet">
 
-    <title>IktaVT Note 0.1</title>
+    <title>IktaVT Note 0.3</title>
     <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body id="body">
 <div id="menu-trigger">
     <div id="menu-container" class="visible">
         <div id="menu">
-            <h3>Settings</h3>
+            <h3>Custom sticknote</h3>
+            <input id="custom-input" type="text" placeholder="Enter Custom Note" />
+            <button id="make-custom-sticknote">Make Custom Stick Note</button>
+            <button id="bgnd-toggle">Lit background</button>
+            <button type="button" class="foldable">Stick Note Settings</button>
+            <div class="content">
+            <label>Sticky Note Size<input type="number" id="sticky-note-size" value="200" /> </label><br>
+            <label>Grid Pitch<input type="number" id="grid-pitch" value="80" /> </label><br>
+            <label>Grid Width<input type="number" id="grid-width" value="600" /> </label><br>
+            <label>Grid Height<input type="number" id="grid-height" value="400" /> </label><br>
+            </div>
+            <button type="button" class="foldable">Connection Settings</button>
+             <div class="content">
             <label>OAuth Token:</label>
             <input id="oauth-token" type="password" placeholder="Enter OAuth Token" />
             <br>
@@ -21,7 +33,6 @@
             <br>
             <label>User ID:</label>
             <input id="user-id" type="password" placeholder="Enter User ID" />
-            <br><br>
             <h3>Enable Events</h3>
             <label><input type="checkbox" id="tier1-checkbox" /> Tier 1</label><br>
             <label><input type="checkbox" id="tier2-checkbox" /> Tier 2</label><br>
@@ -33,42 +44,42 @@
             <input id="channel-redeem-input" type="text" placeholder="Enter Channel Redeem Name" />
             <br>
             <button id="save-settings">Save Settings</button>
-            <button id="simulate-subscription">Simulate Subscription</button>
-            <button id="simulate-redeem">Simulate Channel Redeem</button>
+            </div>
             <h4 id="status-display">Status: <span id="connection-status">Disconnected</span></h4>
-            <h3>Font Settings</h3>
-<label for="font-style">Font Style:</label>
-<select id="font-style">
-    <!-- Web-Safe Fonts -->
-    <option value="Arial" style="font-family: Arial;">Arial</option>
-    <option value="Verdana" style="font-family: Verdana;">Verdana</option>
-    <option value="Tahoma" style="font-family: Tahoma;">Tahoma</option>
-    <option value="Trebuchet MS" style="font-family: 'Trebuchet MS';">Trebuchet MS</option>
-    <option value="Georgia" style="font-family: Georgia;">Georgia</option>
-    <option value="Times New Roman" style="font-family: 'Times New Roman';">Times New Roman</option>
-    <option value="Courier New" style="font-family: 'Courier New';">Courier New</option>
-    <option value="Brush Script MT" style="font-family: 'Brush Script MT';">Brush Script MT</option>
-    <!-- Google Fonts -->
-    <option value="Roboto" style="font-family: Roboto;">Roboto</option>
-    <option value="Open Sans" style="font-family: 'Open Sans';">Open Sans</option>
-    <option value="Lato" style="font-family: Lato;">Lato</option>
-    <option value="Oswald" style="font-family: Oswald;">Oswald</option>
-    <option value="Montserrat" style="font-family: Montserrat;">Montserrat</option>
-    <option value="Source Sans Pro" style="font-family: 'Source Sans Pro';">Source Sans Pro</option>
-    <option value="Raleway" style="font-family: Raleway;">Raleway</option>
-    <option value="PT Sans" style="font-family: 'PT Sans';">PT Sans</option>
-</select>
-
+            <button type="button" class="foldable"> Font Settings</button>
+            <div class="content">
+            <label for="font-style">Font Style:</label>
+            <select id="font-style">
+                <!-- Web-Safe Fonts -->
+                    <option value="Arial" style="font-family: Arial;">Arial</option>
+                    <option value="Verdana" style="font-family: Verdana;">Verdana</option>
+                    <option value="Tahoma" style="font-family: Tahoma;">Tahoma</option>
+                    <option value="Trebuchet MS" style="font-family: 'Trebuchet MS';">Trebuchet MS</option>
+                    <option value="Georgia" style="font-family: Georgia;">Georgia</option>
+                    <option value="Times New Roman" style="font-family: 'Times New Roman';">Times New Roman</option>
+                    <option value="Courier New" style="font-family: 'Courier New';">Courier New</option>
+                    <option value="Brush Script MT" style="font-family: 'Brush Script MT';">Brush Script MT</option>
+                <!-- Google Fonts -->
+                    <option value="Roboto" style="font-family: Roboto;">Roboto</option>
+                    <option value="Open Sans" style="font-family: 'Open Sans';">Open Sans</option>
+                    <option value="Lato" style="font-family: Lato;">Lato</option>
+                    <option value="Oswald" style="font-family: Oswald;">Oswald</option>
+                    <option value="Montserrat" style="font-family: Montserrat;">Montserrat</option>
+                    <option value="Source Sans Pro" style="font-family: 'Source Sans Pro';">Source Sans Pro</option>
+                    <option value="Raleway" style="font-family: Raleway;">Raleway</option>
+                    <option value="PT Sans" style="font-family: 'PT Sans';">PT Sans</option>
+            </select>
             <br><br>
             <label for="font-color">Font Color:</label>
             <input type="color" id="font-color" value="#333333" />
-<label for="outline-toggle">Enable Outline:</label>
-<input type="checkbox" id="outline-toggle" />
-<label for="outline-color">Outline Color:</label>
-<input type="color" id="outline-color" value="#000000" disabled />
-<label for="outline-size">Outline Size:</label>
-<input type="range" id="outline-size" min="0" max="10" value="1" disabled />
-<span id="outline-size-value">1px</span>
+            <label for="outline-toggle">Enable Outline:</label>
+            <input type="checkbox" id="outline-toggle" />
+            <label for="outline-color">Outline Color:</label>
+            <input type="color" id="outline-color" value="#000000" disabled />
+            <label for="outline-size">Outline Size:</label>
+            <input type="range" id="outline-size" min="0" max="10" value="1" disabled />
+            <span id="outline-size-value">1px</span>
+            </div>
         </div>
     </div>
 </div>
