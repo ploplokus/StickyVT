@@ -112,7 +112,7 @@ body {
     margin-left: 10px;
     font-size: 14px;
 }
-.username {
+.note-content {
     display: inline-block;
     text-align: center;
     transform-origin: center; /* Rotate around the center of the text */
@@ -155,7 +155,7 @@ body {
 }
 
 /* Style the foldable content. Note: hidden by default */
-.content {
+.foldable-content {
   padding: 0 4px;
   display: none;
   overflow: hidden;

@@ -5,7 +5,6 @@ const statusDisplay = document.getElementById('connection-status');
 let gridLeftMargin = 100;
 let gridTopMargin = 100;
 
-let usernameList = [];
 
 
 var foldable = document.getElementsByClassName("foldable");
@@ -161,9 +160,9 @@ const fontColorPicker = document.getElementById('font-color');
 
 // Function to apply font settings to a sticky note
 function applyFontSettings(note) {
-    const usernameDiv = note.querySelector('.username');
-    usernameDiv.style.fontFamily = fontStyleSelector.value;
-    usernameDiv.style.color = fontColorPicker.value;
+    const noteContentDiv = note.querySelector('.note-content');
+    noteContentDiv.style.fontFamily = fontStyleSelector.value;
+    noteContentDiv.style.color = fontColorPicker.value;
 }
 
 
@@ -175,18 +174,18 @@ const outlineSizeValue = document.getElementById('outline-size-value');
 
 // Function to apply outline settings to a sticky note
 function applyOutlineSettings(note) {
-    const usernameDiv = note.querySelector('.username');
+    const noteContentDiv = note.querySelector('.note-content');
     if (outlineToggle.checked) {
         const outlineColor = outlineColorPicker.value;
         const outlineSize = `${outlineSizeSlider.value}px`;
-        usernameDiv.style.textShadow = `
+        noteContentDiv.style.textShadow = `
             -${outlineSize} -${outlineSize} 0 ${outlineColor},
             ${outlineSize} -${outlineSize} 0 ${outlineColor},
             -${outlineSize} ${outlineSize} 0 ${outlineColor},
             ${outlineSize} ${outlineSize} 0 ${outlineColor}
         `;
     } else {
-        usernameDiv.style.textShadow = 'none';
+        noteContentDiv.style.textShadow = 'none';
     }
 }
 
@@ -211,16 +210,16 @@ outlineSizeSlider.addEventListener('input', () => {
 
 
 // Modify the createStickyNote function to apply font and outline settings
-function createStickyNote(username) {
-if( document.getElementById("allow-only-unique").checked ) {
-    var existing = document.getElementsByClassName("username");
-    for (var i = 0; i < existing.length; i++) {
-	if (existing[i].innerHTML == username) {
-	    return;
+function createStickyNote(noteContent) {
+    if( document.getElementById("allow-only-unique").checked ) {
+        var existing = document.getElementsByClassName("note-content");
+        for (var i = 0; i < existing.length; i++) {
+        if (existing[i].textContent == noteContent) {
+            return;
+            }
         }
     }
 
-}
     const note = document.createElement('div');
     note.className = 'sticky-note';
     let gridPitch =  document.getElementById('grid-pitch').value.trim();
@@ -232,21 +231,21 @@ if( document.getElementById("allow-only-unique").checked ) {
     note.style.width =  document.getElementById('sticky-note-size').value.trim() + 'px';
     note.style.height =  document.getElementById('sticky-note-size').value.trim() + 'px';
 
-    const usernameDiv = document.createElement('div');
-    usernameDiv.textContent = username;
-    usernameDiv.className = 'username';
+    const noteContentDiv = document.createElement('div');
+    noteContentDiv.textContent = noteContent;
+    noteContentDiv.className = 'note-content';
 
     const deleteIcon = document.createElement('div');
     deleteIcon.className = 'delete-icon';
     deleteIcon.addEventListener('click', () => container.removeChild(note));
 
-    note.appendChild(usernameDiv);
+    note.appendChild(noteContentDiv);
     note.appendChild(deleteIcon);
     container.appendChild(note);
 
     applyFontSettings(note); // Apply selected font settings
     applyOutlineSettings(note); // Apply selected outline settings
-    adjustFontSize(usernameDiv, note);
+    adjustFontSize(noteContentDiv, note);
     makeStickyNoteDraggableAndResizable(note);
 }
 
@@ -263,33 +262,33 @@ fontColorPicker.addEventListener('input', () => {
 
 
 // Adjust font size based on note dimensions
-function adjustFontSize(usernameDiv, note) {
+function adjustFontSize(noteContentDiv, note) {
     const maxFontSize = 40; // Maximum font size
     const minFontSize = 10; // Minimum font size
     const noteWidth = parseInt(note.style.width, 10);
     const noteHeight = parseInt(note.style.height, 10);
 
     let fontSize = maxFontSize;
-    usernameDiv.style.fontSize = `${fontSize}px`;
-    usernameDiv.style.whiteSpace = 'normal'; // Allow text wrapping
-    usernameDiv.style.wordWrap = 'break-word';
+    noteContentDiv.style.fontSize = `${fontSize}px`;
+    noteContentDiv.style.whiteSpace = 'normal'; // Allow text wrapping
+    noteContentDiv.style.wordWrap = 'break-word';
 
     // Reduce font size until it fits within the note
     while (
-        (usernameDiv.scrollWidth > noteWidth || usernameDiv.scrollHeight > noteHeight) &&
+        (noteContentDiv.scrollWidth > noteWidth || noteContentDiv.scrollHeight > noteHeight) &&
         fontSize > minFontSize
     ) {
         fontSize -= 1;
-        usernameDiv.style.fontSize = `${fontSize}px`;
+        noteContentDiv.style.fontSize = `${fontSize}px`;
     }
 
     // Add ellipsis or break text manually if it still doesn't fit
-    if (usernameDiv.scrollHeight > noteHeight) {
-        usernameDiv.style.overflow = 'hidden';
-        usernameDiv.style.textOverflow = 'ellipsis';
-        usernameDiv.style.display = '-webkit-box';
-        usernameDiv.style.webkitLineClamp = Math.floor(noteHeight / fontSize);
-        usernameDiv.style.webkitBoxOrient = 'vertical';
+    if (noteContentDiv.scrollHeight > noteHeight) {
+        noteContentDiv.style.overflow = 'hidden';
+        noteContentDiv.style.textOverflow = 'ellipsis';
+        noteContentDiv.style.display = '-webkit-box';
+        noteContentDiv.style.webkitLineClamp = Math.floor(noteHeight / fontSize);
+        noteContentDiv.style.webkitBoxOrient = 'vertical';
     }
 }
 
@@ -300,7 +299,7 @@ function makeStickyNoteDraggableAndResizable(note) {
     let offsetX = 0;
     let offsetY = 0;
 
-    const usernameDiv = note.querySelector('.username'); // Reference to username div
+    const noteContentDiv = note.querySelector('.note-content'); // Reference to noteContent div
 
     note.addEventListener('mousedown', (e) => {
         isDragging = true;
@@ -328,7 +327,7 @@ function makeStickyNoteDraggableAndResizable(note) {
         note.style.height = `${newHeight}px`;
 
         // Adjust font size dynamically as the note resizes
-        adjustFontSize(usernameDiv, note);
+        adjustFontSize(noteContentDiv, note);
     });
 }
 
