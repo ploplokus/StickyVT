@@ -212,9 +212,15 @@ outlineSizeSlider.addEventListener('input', () => {
 
 // Modify the createStickyNote function to apply font and outline settings
 function createStickyNote(username) {
-//    if (usernameList.includes(username))
-//        return;
-//    usernameList.push(username);
+if( document.getElementById("allow-only-unique").checked ) {
+    var existing = document.getElementsByClassName("username");
+    for (var i = 0; i < existing.length; i++) {
+	if (existing[i].innerHTML == username) {
+	    return;
+        }
+    }
+
+}
     const note = document.createElement('div');
     note.className = 'sticky-note';
     let gridPitch =  document.getElementById('grid-pitch').value.trim();
